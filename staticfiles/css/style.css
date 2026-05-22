@@ -637,11 +637,16 @@ ul { list-style: none; }
 @media (max-width: 900px) {
   .catalog__body { grid-template-columns: 1fr; }
   .catalog__sidebar {
-    flex-direction: row; flex-wrap: nowrap; overflow-x: auto;
-    position: static; gap: 6px; padding: 10px;
-    -webkit-overflow-scrolling: touch;
+    flex-direction: row; flex-wrap: wrap;
+    position: static; gap: 8px; padding: 12px;
   }
-  .sidebar-cat { white-space: nowrap; flex-shrink: 0; }
+  .sidebar-cat {
+    white-space: normal;
+    flex: 0 0 calc(50% - 4px);
+    text-align: center;
+    font-size: 13px;
+    padding: 9px 8px;
+  }
 }
 @media (max-width: 640px) {
   .hero { padding-top: 72px; }
