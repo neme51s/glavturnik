@@ -728,6 +728,11 @@ sidebarBtns.forEach(btn => {
     sidebarBtns.forEach(b => b.classList.remove('sidebar-cat--active'));
     btn.classList.add('sidebar-cat--active');
     filterBySlug(btn.dataset.slug);
+    if (window.innerWidth <= 900) {
+      setTimeout(() => {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 200);
+    }
   });
 });
 </script>
