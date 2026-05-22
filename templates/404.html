@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Страница не найдена | ГлавТурник KG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <style>
+    body {
+      background: #0D1117;
+      color: #e6edf3;
+    }
+    .page-404 {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .page-404__inner {
+      max-width: 520px;
+    }
+    .page-404__logo {
+      width: 140px;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 0 32px rgba(245,184,0,.25));
+    }
+    .page-404__code {
+      font-size: clamp(6rem, 20vw, 10rem);
+      font-weight: 900;
+      line-height: 1;
+      color: #F5B800;
+      letter-spacing: -4px;
+      text-shadow: 0 0 60px rgba(245,184,0,.3);
+    }
+    .page-404__title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #e6edf3;
+      margin: 1rem 0 .75rem;
+    }
+    .page-404__sub {
+      color: #8b949e;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+    .page-404__actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn--outline { border-color: rgba(245,184,0,.5); color: #F5B800; }
+    .btn--outline:hover { background: rgba(245,184,0,.1); }
+  </style>
+</head>
+<body>
+
+<div class="page-404">
+  <div class="page-404__inner">
+    <img src="{% static 'images/logo.png' %}" alt="ГлавТурник KG" class="page-404__logo">
+    <div class="page-404__code">404</div>
+    <h1 class="page-404__title">Страница не найдена</h1>
+    <p class="page-404__sub">
+      Похоже, эта страница уже не существует или была перемещена.<br>
+      Вернитесь на главную — там всё на месте.
+    </p>
+    <div class="page-404__actions">
+      <a href="/" class="btn btn--primary">🏠 На главную</a>
+      <a href="tel:+996502409280" class="btn btn--outline">📞 Позвонить нам</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
