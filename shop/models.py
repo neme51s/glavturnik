@@ -2,7 +2,8 @@ from django.db import models
 
 
 class Category(models.Model):
-    name = models.CharField('Название', max_length=200)
+    name = models.CharField('Название (рус.)', max_length=200)
+    name_kg = models.CharField('Название (кырг.)', max_length=200, blank=True)
     slug = models.SlugField(unique=True)
     emoji = models.CharField('Эмодзи', max_length=10, default='🏋️')
     order = models.PositiveIntegerField('Порядок', default=0)
