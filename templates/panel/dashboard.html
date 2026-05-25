@@ -1,0 +1,47 @@
+{% extends 'panel/base.html' %}
+{% block title %}Дашборд{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div class="page-title">Дашборд</div>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat__num">{{ total_products }}</div>
+    <div class="stat__label">Товаров</div>
+  </div>
+  <div class="stat">
+    <div class="stat__num">{{ total_cats }}</div>
+    <div class="stat__label">Категорий</div>
+  </div>
+  <div class="stat">
+    <div class="stat__num">{{ total_hits }}</div>
+    <div class="stat__label">Хитов продаж</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="recent-title">Последние добавленные товары</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Товар</th><th>Категория</th><th>Цена</th><th>Хит</th></tr>
+        </thead>
+        <tbody>
+          {% for p in recent %}
+          <tr>
+            <td>
+              <a href="{% url 'panel_product_edit' p.pk %}" style="color:#e6edf3;text-decoration:none">{{ p.name }}</a>
+            </td>
+            <td><span class="badge badge--cat">{{ p.category.emoji }} {{ p.category.name }}</span></td>
+            <td>{{ p.price }} сом</td>
+            <td>{% if p.is_hit %}<span class="badge badge--hit">🔥 Хит</span>{% else %}—{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'panel/base.html' %}
+{% block title %}{% if action == 'new' %}Новая категория{% else %}Изменить категорию{% endif %}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div class="page-title">{% if action == 'new' %}Новая категория{% else %}Изменить: {{ cat.name }}{% endif %}</div>
+  <a href="{% url 'panel_categories' %}" class="btn btn--ghost">← Назад</a>
+</div>
+
+{% if error %}<div class="error-box">{{ error }}</div>{% endif %}
+
+<div class="card">
+  <div class="card-body">
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="tab-ru" onclick="switchTab('tab-ru')">🇷🇺 Русский</button>
+        <button type="button" class="tab" data-tab="tab-kg" onclick="switchTab('tab-kg')">🇰🇬 Кыргызский</button>
+      </div>
+
+      <div id="tab-ru" class="tab-pane active form-grid" style="gap:20px">
+        <div class="field">
+          <label>Название (рус.) *</label>
+          <input type="text" name="name" value="{{ cat.name|default:data.name }}" id="nameInput" oninput="autoSlug()" required>
+        </div>
+      </div>
+
+      <div id="tab-kg" class="tab-pane form-grid" style="gap:20px">
+        <div class="field">
+          <label>Название (кырг.)</label>
+          <input type="text" name="name_kg" value="{{ cat.name_kg|default:data.name_kg }}">
+        </div>
+      </div>
+
+      <div style="height:20px"></div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Эмодзи</label>
+          <input type="text" name="emoji" value="{{ cat.emoji|default:data.emoji|default:'🏋️' }}" maxlength="10">
+        </div>
+        <div class="field">
+          <label>Порядок отображения</label>
+          <input type="number" name="order" value="{{ cat.order|default:data.order|default:0 }}" min="0">
+        </div>
+        <div class="field">
+          <label>Slug (URL) — заполняется автоматически</label>
+          <input type="text" name="slug" id="slugInput" value="{{ cat.slug|default:data.slug }}">
+        </div>
+      </div>
+
+      <div style="margin-top:24px;display:flex;gap:12px">
+        <button type="submit" class="btn btn--primary">{% if action == 'new' %}Создать{% else %}Сохранить{% endif %}</button>
+        <a href="{% url 'panel_categories' %}" class="btn btn--ghost">Отмена</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function autoSlug() {
+  const slugInput = document.getElementById('slugInput');
+  if (slugInput.dataset.manual) return;
+  const name = document.getElementById('nameInput').value;
+  slugInput.value = name.toLowerCase()
+    .replace(/[а-яё]/g, c => 'aбвгдеёжзийклмнопрстуфхцчшщъыьэюя'.indexOf(c) >= 0
+      ? 'abvgdeeyozhziyklmnoprstufhczchshshyeyuya'[Math.max(0,'aбвгдеёжзийклмнопрстуфхцчшщъыьэюя'.indexOf(c))]||c : c)
+    .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g,'');
+}
+document.getElementById('slugInput').addEventListener('input', function(){ this.dataset.manual = '1'; });
+</script>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'panel/base.html' %}
+{% block title %}Товары{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div class="page-title">Товары <span>{{ page_obj.paginator.count }}</span></div>
+  <a href="{% url 'panel_product_new' %}" class="btn btn--primary">+ Добавить</a>
+</div>
+
+<form method="get" class="search-bar">
+  <input type="text" name="q" value="{{ q }}" placeholder="Поиск по названию...">
+  <select name="cat" onchange="this.form.submit()">
+    <option value="">Все категории</option>
+    {% for c in cats %}
+    <option value="{{ c.slug }}" {% if c.slug == cat_slug %}selected{% endif %}>{{ c.emoji }} {{ c.name }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="btn btn--ghost">Найти</button>
+  {% if q or cat_slug %}<a href="{% url 'panel_products' %}" class="btn btn--ghost">Сбросить</a>{% endif %}
+</form>
+
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Фото</th><th>Название</th><th>Категория</th><th>Цена</th><th>Хит</th><th>Порядок</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for p in page_obj %}
+        <tr>
+          <td>
+            {% if p.image %}
+            <img src="/static/{{ p.image }}" class="thumb">
+            {% else %}
+            <div class="thumb-placeholder">📦</div>
+            {% endif %}
+          </td>
+          <td style="font-weight:600;max-width:220px">
+            {{ p.name }}
+            {% if p.name_kg %}<div style="font-size:12px;color:#8b949e;margin-top:2px">{{ p.name_kg }}</div>{% endif %}
+          </td>
+          <td><span class="badge badge--cat">{{ p.category.emoji }} {{ p.category.name }}</span></td>
+          <td style="white-space:nowrap">{{ p.price }} сом</td>
+          <td>
+            <form method="post" action="{% url 'panel_product_edit' p.pk %}">
+              {% csrf_token %}
+              {% if p.is_hit %}
+                <span class="badge badge--hit">🔥 Хит</span>
+              {% else %}
+                <span style="color:#8b949e;font-size:13px">—</span>
+              {% endif %}
+            </form>
+          </td>
+          <td>{{ p.order }}</td>
+          <td style="text-align:right;white-space:nowrap">
+            <a href="{% url 'panel_product_edit' p.pk %}" class="btn btn--ghost btn--sm">Изменить</a>
+            <form method="post" action="{% url 'panel_product_delete' p.pk %}" style="display:inline" onsubmit="return confirm('Удалить «{{ p.name }}»?')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn--danger btn--sm">Удалить</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" style="text-align:center;color:#8b949e;padding:32px">Товары не найдены</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}&q={{ q }}&cat={{ cat_slug }}">←</a>
+  {% endif %}
+  {% for num in page_obj.paginator.page_range %}
+  {% if num == page_obj.number %}
+  <span class="current">{{ num }}</span>
+  {% elif num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+  <a href="?page={{ num }}&q={{ q }}&cat={{ cat_slug }}">{{ num }}</a>
+  {% endif %}
+  {% endfor %}
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}&q={{ q }}&cat={{ cat_slug }}">→</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Панель{% endblock %} — ГлавТурник KG</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0f1117;color:#e6edf3;font-family:Inter,sans-serif;min-height:100vh;display:flex}
+
+/* Sidebar */
+.sidebar{width:220px;flex-shrink:0;background:#161b22;border-right:1px solid #30363d;display:flex;flex-direction:column;min-height:100vh;position:sticky;top:0;height:100vh}
+.sidebar__logo{padding:24px 20px 20px;border-bottom:1px solid #30363d}
+.sidebar__logo-icon{font-size:22px}
+.sidebar__logo-name{font-size:16px;font-weight:700;color:#f5b800;margin-top:4px}
+.sidebar__logo-sub{font-size:11px;color:#8b949e;margin-top:2px}
+.sidebar__nav{padding:12px 8px;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;color:#8b949e;text-decoration:none;font-size:14px;font-weight:500;transition:.15s;margin-bottom:2px}
+.nav-item:hover{background:#1c2128;color:#e6edf3}
+.nav-item.active{background:rgba(245,184,0,.12);color:#f5b800}
+.nav-item .icon{font-size:16px;width:20px;text-align:center}
+.sidebar__bottom{padding:12px 8px;border-top:1px solid #30363d}
+.nav-item--logout:hover{background:rgba(248,81,73,.1);color:#f85149}
+
+/* Main */
+.main{flex:1;min-width:0;padding:32px}
+
+/* Page header */
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.page-title{font-size:22px;font-weight:700}
+.page-title span{color:#8b949e;font-weight:400;font-size:16px;margin-left:8px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;text-decoration:none;transition:.15s}
+.btn--primary{background:#f5b800;color:#0f1117}
+.btn--primary:hover{background:#ffc929}
+.btn--ghost{background:transparent;border:1px solid #30363d;color:#8b949e}
+.btn--ghost:hover{border-color:#8b949e;color:#e6edf3}
+.btn--danger{background:rgba(248,81,73,.12);border:1px solid rgba(248,81,73,.3);color:#f85149}
+.btn--danger:hover{background:rgba(248,81,73,.2)}
+.btn--sm{padding:6px 12px;font-size:13px}
+
+/* Cards */
+.card{background:#1c2128;border:1px solid #30363d;border-radius:12px}
+.card-body{padding:20px}
+
+/* Stats row */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.stat{background:#1c2128;border:1px solid #30363d;border-radius:12px;padding:20px}
+.stat__num{font-size:32px;font-weight:700;color:#f5b800}
+.stat__label{font-size:13px;color:#8b949e;margin-top:4px}
+
+/* Table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:10px 14px;color:#8b949e;font-weight:500;border-bottom:1px solid #30363d;white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid #21262d;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+
+/* Badge */
+.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:12px;font-weight:600}
+.badge--hit{background:rgba(245,184,0,.15);color:#f5b800}
+.badge--cat{background:rgba(139,148,158,.1);color:#8b949e}
+
+/* Hit toggle */
+.hit-toggle{cursor:pointer;font-size:18px;background:none;border:none;padding:0}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-grid--full{grid-template-columns:1fr}
+.field{margin-bottom:0}
+.field label{display:block;font-size:13px;font-weight:500;color:#8b949e;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;background:#0f1117;border:1px solid #30363d;border-radius:8px;padding:10px 14px;color:#e6edf3;font-size:14px;outline:none;transition:.2s;font-family:Inter,sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#f5b800}
+.field textarea{resize:vertical;min-height:90px}
+.field select option{background:#161b22}
+.section-label{font-size:12px;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #30363d}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:24px;background:#0f1117;border-radius:10px;padding:4px;width:fit-content}
+.tab{padding:8px 18px;border-radius:7px;font-size:14px;font-weight:500;cursor:pointer;color:#8b949e;border:none;background:transparent;transition:.15s}
+.tab.active{background:#1c2128;color:#e6edf3}
+.tab-pane{display:none}
+.tab-pane.active{display:grid}
+
+/* Search bar */
+.search-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.search-bar input{background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:9px 14px;color:#e6edf3;font-size:14px;outline:none;min-width:220px}
+.search-bar input:focus{border-color:#f5b800}
+.search-bar select{background:#1c2128;border:1px solid #30363d;border-radius:8px;padding:9px 14px;color:#e6edf3;font-size:14px;outline:none}
+
+/* Checkbox (hit) */
+.hit-check{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:#e6edf3}
+.hit-check input{width:18px;height:18px;accent-color:#f5b800;cursor:pointer}
+
+/* Pagination */
+.pagination{display:flex;gap:6px;margin-top:20px;justify-content:center}
+.pagination a,.pagination span{padding:6px 12px;border-radius:6px;font-size:13px;text-decoration:none;border:1px solid #30363d;color:#8b949e}
+.pagination a:hover{border-color:#8b949e;color:#e6edf3}
+.pagination .current{background:#f5b800;color:#0f1117;border-color:#f5b800;font-weight:700}
+
+/* Error */
+.error-box{background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.35);color:#f85149;border-radius:8px;padding:10px 14px;margin-bottom:20px;font-size:14px}
+
+/* Thumb */
+.thumb{width:44px;height:44px;border-radius:6px;object-fit:cover}
+.thumb-placeholder{width:44px;height:44px;border-radius:6px;background:#21262d;display:flex;align-items:center;justify-content:center;color:#8b949e;font-size:18px}
+
+/* Recent table */
+.recent-title{font-size:15px;font-weight:600;margin-bottom:12px}
+
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding:16px}
+  .form-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar__logo">
+    <div class="sidebar__logo-icon">⚡</div>
+    <div class="sidebar__logo-name">ГлавТурник KG</div>
+    <div class="sidebar__logo-sub">Панель управления</div>
+  </div>
+  <nav class="sidebar__nav">
+    <a href="{% url 'panel_dashboard' %}" class="nav-item {% if active == 'dashboard' %}active{% endif %}">
+      <span class="icon">📊</span> Дашборд
+    </a>
+    <a href="{% url 'panel_categories' %}" class="nav-item {% if active == 'categories' %}active{% endif %}">
+      <span class="icon">📂</span> Категории
+    </a>
+    <a href="{% url 'panel_products' %}" class="nav-item {% if active == 'products' %}active{% endif %}">
+      <span class="icon">📦</span> Товары
+    </a>
+  </nav>
+  <div class="sidebar__bottom">
+    <a href="{% url 'panel_logout' %}" class="nav-item nav-item--logout">
+      <span class="icon">🚪</span> Выйти
+    </a>
+  </div>
+</aside>
+<main class="main">
+  {% block content %}{% endblock %}
+</main>
+<script>
+function switchTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.toggle('active', p.id === tabId));
+}
+</script>
+</body>
+</html>

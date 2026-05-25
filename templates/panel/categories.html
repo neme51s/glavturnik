@@ -1,0 +1,38 @@
+{% extends 'panel/base.html' %}
+{% block title %}Категории{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div class="page-title">Категории <span>{{ cats|length }}</span></div>
+  <a href="{% url 'panel_category_new' %}" class="btn btn--primary">+ Добавить</a>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Эмодзи</th><th>Название (рус.)</th><th>Название (кырг.)</th><th>Slug</th><th>Порядок</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for cat in cats %}
+        <tr>
+          <td style="font-size:22px">{{ cat.emoji }}</td>
+          <td style="font-weight:600">{{ cat.name }}</td>
+          <td style="color:#8b949e">{{ cat.name_kg|default:"—" }}</td>
+          <td style="color:#8b949e;font-family:monospace">{{ cat.slug }}</td>
+          <td>{{ cat.order }}</td>
+          <td style="text-align:right">
+            <a href="{% url 'panel_category_edit' cat.pk %}" class="btn btn--ghost btn--sm">Изменить</a>
+            <form method="post" action="{% url 'panel_category_delete' cat.pk %}" style="display:inline" onsubmit="return confirm('Удалить категорию «{{ cat.name }}»? Все товары тоже удалятся.')">
+              {% csrf_token %}
+              <button type="submit" class="btn btn--danger btn--sm">Удалить</button>
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="6" style="text-align:center;color:#8b949e;padding:32px">Нет категорий</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
