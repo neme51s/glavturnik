@@ -578,13 +578,11 @@ ul { list-style: none; }
 }
 .social-panel__btn--insta .social-panel__icon { background: linear-gradient(135deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%); }
 .social-panel__btn--wa    .social-panel__icon { background: linear-gradient(135deg, #25D366, #128C7E); }
-.social-panel__btn--ok    .social-panel__icon { background: #EE8208; }
-.social-panel__btn--phone .social-panel__icon { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #0D1117; }
+.social-panel__btn--email .social-panel__icon { background: linear-gradient(135deg, #0072C6, #00A4EF); }
 
 .social-panel__btn--insta:hover { border-color: #fd1d1d; background: rgba(253,29,29,.03); }
 .social-panel__btn--wa:hover    { border-color: #25D366; background: rgba(37,211,102,.03); }
-.social-panel__btn--ok:hover    { border-color: #EE8208; background: rgba(238,130,8,.03); }
-.social-panel__btn--phone:hover { border-color: var(--accent); background: rgba(245,184,0,.04); }
+.social-panel__btn--email:hover { border-color: #0072C6; background: rgba(0,114,198,.03); }
 
 .social-panel__info { flex: 1; }
 .social-panel__name   { font-size: 16px; font-weight: 700; color: var(--text); }
