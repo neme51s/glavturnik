@@ -29,7 +29,11 @@
         <tr>
           <td>
             {% if p.image %}
-            <img src="/static/{{ p.image }}" class="thumb">
+            {% if p.image|slice:":4" == "http" %}
+            <img src="{{ p.image }}" class="thumb">
+            {% else %}
+            {% load static %}<img src="{% static p.image %}" class="thumb">
+            {% endif %}
             {% else %}
             <div class="thumb-placeholder">📦</div>
             {% endif %}
