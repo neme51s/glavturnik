@@ -21,7 +21,16 @@ input:focus{border-color:#f5b800}
 .field{margin-bottom:16px}
 button{width:100%;background:#f5b800;color:#0f1117;font-weight:700;font-size:15px;border:none;border-radius:8px;padding:12px;cursor:pointer;margin-top:8px;transition:.2s}
 button:hover{background:#ffc929}
+button[type=button]:hover{background:none!important;color:#e6edf3}
 </style>
+<script>
+function togglePassword(){
+  const inp = document.getElementById('passwordInput');
+  const btn = document.getElementById('toggleBtn');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+}
+</script>
 </head>
 <body>
 <div class="card">
@@ -39,7 +48,10 @@ button:hover{background:#ffc929}
     </div>
     <div class="field">
       <label>Пароль</label>
-      <input type="password" name="password" autocomplete="current-password">
+      <div style="position:relative">
+        <input type="password" name="password" id="passwordInput" autocomplete="current-password" style="padding-right:42px">
+        <button type="button" onclick="togglePassword()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#8b949e;font-size:16px;padding:0;width:auto" id="toggleBtn">👁</button>
+      </div>
     </div>
     <button type="submit">Войти</button>
   </form>
