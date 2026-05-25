@@ -1,7 +1,7 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
-from django.utils.text import slugify
 from .models import Category, Product
 
 
@@ -13,6 +13,12 @@ def staff_required(fn):
             return redirect('panel_login')
         return fn(request, *args, **kwargs)
     return inner
+
+
+def _upload_image(file):
+    import cloudinary.uploader
+    result = cloudinary.uploader.upload(file, folder='glavturnik')
+    return result['secure_url']
 
 
 def panel_login(request):
@@ -50,29 +56,23 @@ def panel_dashboard(request):
 def panel_categories(request):
     return render(request, 'panel/categories.html', {
         'active': 'categories',
-        'cats': Category.objects.order_by('order'),
+        'cats': Category.objects.order_by('name'),
     })
 
 
 @staff_required
 def panel_category_new(request):
     error = None
-    obj = {'emoji': '🏋️', 'order': 0}
+    obj = {}
     if request.method == 'POST':
         obj = request.POST
         name = obj.get('name', '').strip()
-        slug_val = obj.get('slug', '').strip() or slugify(name)
         if not name:
             error = 'Укажите название на русском'
-        elif Category.objects.filter(slug=slug_val).exists():
-            error = f'Slug «{slug_val}» уже занят'
         else:
             Category.objects.create(
                 name=name,
                 name_kg=obj.get('name_kg', '').strip(),
-                emoji=obj.get('emoji', '🏋️').strip() or '🏋️',
-                order=int(obj.get('order') or 0),
-                slug=slug_val,
             )
             return redirect('panel_categories')
     return render(request, 'panel/category_form.html', {'active': 'categories', 'action': 'new', 'obj': obj, 'error': error})
@@ -84,22 +84,16 @@ def panel_category_edit(request, pk):
     error = None
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
-        slug_val = request.POST.get('slug', '').strip() or cat.slug
         if not name:
             error = 'Укажите название на русском'
-        elif slug_val != cat.slug and Category.objects.filter(slug=slug_val).exists():
-            error = f'Slug «{slug_val}» уже занят'
         else:
             cat.name = name
             cat.name_kg = request.POST.get('name_kg', '').strip()
-            cat.emoji = request.POST.get('emoji', '🏋️').strip() or '🏋️'
-            cat.order = int(request.POST.get('order') or 0)
-            cat.slug = slug_val
             cat.save()
             return redirect('panel_categories')
         obj = request.POST
     else:
-        obj = {'name': cat.name, 'name_kg': cat.name_kg, 'emoji': cat.emoji, 'order': cat.order, 'slug': cat.slug}
+        obj = {'name': cat.name, 'name_kg': cat.name_kg}
     return render(request, 'panel/category_form.html', {'active': 'categories', 'action': 'edit', 'cat': cat, 'obj': obj, 'error': error})
 
 
@@ -115,7 +109,7 @@ def panel_category_delete(request, pk):
 
 @staff_required
 def panel_products(request):
-    qs = Product.objects.select_related('category').order_by('category__order', 'order')
+    qs = Product.objects.select_related('category').order_by('-is_hit', 'name')
     cat_slug = request.GET.get('cat', '')
     q = request.GET.get('q', '')
     if cat_slug:
@@ -126,7 +120,7 @@ def panel_products(request):
     return render(request, 'panel/products.html', {
         'active': 'products',
         'page_obj': page_obj,
-        'cats': Category.objects.order_by('order'),
+        'cats': Category.objects.order_by('name'),
         'cat_slug': cat_slug,
         'q': q,
     })
@@ -135,31 +129,29 @@ def panel_products(request):
 @staff_required
 def panel_product_new(request):
     error = None
-    obj = {'order': 0, 'price': 0}
-    cats = Category.objects.order_by('order')
+    obj = {'price': 0}
+    cats = Category.objects.order_by('name')
     if request.method == 'POST':
         obj = request.POST
         name = obj.get('name', '').strip()
-        slug_val = obj.get('slug', '').strip() or slugify(name)
         if not name:
             error = 'Укажите название на русском'
         elif not obj.get('category'):
             error = 'Выберите категорию'
-        elif Product.objects.filter(slug=slug_val).exists():
-            error = f'Slug «{slug_val}» уже занят'
         else:
             try:
+                image_url = ''
+                if request.FILES.get('image'):
+                    image_url = _upload_image(request.FILES['image'])
                 Product.objects.create(
                     name=name,
                     name_kg=obj.get('name_kg', '').strip(),
-                    slug=slug_val,
                     category_id=obj['category'],
                     price=int(obj.get('price') or 0),
-                    image=obj.get('image', '').strip(),
+                    image=image_url,
                     description=obj.get('description', '').strip(),
                     description_kg=obj.get('description_kg', '').strip(),
                     is_hit='is_hit' in obj,
-                    order=int(obj.get('order') or 0),
                 )
                 return redirect('panel_products')
             except Exception as e:
@@ -171,35 +163,34 @@ def panel_product_new(request):
 def panel_product_edit(request, pk):
     product = get_object_or_404(Product, pk=pk)
     error = None
-    cats = Category.objects.order_by('order')
+    cats = Category.objects.order_by('name')
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
-        slug_val = request.POST.get('slug', '').strip() or product.slug
         if not name:
             error = 'Укажите название на русском'
-        elif slug_val != product.slug and Product.objects.filter(slug=slug_val).exists():
-            error = f'Slug «{slug_val}» уже занят'
         else:
-            product.name = name
-            product.name_kg = request.POST.get('name_kg', '').strip()
-            product.slug = slug_val
-            product.category_id = request.POST.get('category', product.category_id)
-            product.price = int(request.POST.get('price') or product.price)
-            product.image = request.POST.get('image', '').strip()
-            product.description = request.POST.get('description', '').strip()
-            product.description_kg = request.POST.get('description_kg', '').strip()
-            product.is_hit = 'is_hit' in request.POST
-            product.order = int(request.POST.get('order') or 0)
-            product.save()
-            return redirect('panel_products')
+            try:
+                if request.FILES.get('image'):
+                    product.image = _upload_image(request.FILES['image'])
+                product.name = name
+                product.name_kg = request.POST.get('name_kg', '').strip()
+                product.category_id = request.POST.get('category', product.category_id)
+                product.price = int(request.POST.get('price') or product.price)
+                product.description = request.POST.get('description', '').strip()
+                product.description_kg = request.POST.get('description_kg', '').strip()
+                product.is_hit = 'is_hit' in request.POST
+                product.save()
+                return redirect('panel_products')
+            except Exception as e:
+                error = str(e)
         obj = request.POST
     else:
         obj = {
             'name': product.name, 'name_kg': product.name_kg,
-            'slug': product.slug, 'price': product.price,
-            'image': product.image, 'description': product.description,
+            'price': product.price, 'image': product.image,
+            'description': product.description,
             'description_kg': product.description_kg,
-            'is_hit': product.is_hit, 'order': product.order,
+            'is_hit': product.is_hit,
             'category': str(product.category_id),
         }
     return render(request, 'panel/product_form.html', {'active': 'products', 'action': 'edit', 'product': product, 'cats': cats, 'obj': obj, 'error': error})

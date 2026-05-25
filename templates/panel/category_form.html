@@ -20,8 +20,8 @@
 
       <div id="tab-ru" class="tab-pane active form-grid" style="gap:20px">
         <div class="field">
-          <label>Название (рус.) *</label>
-          <input type="text" name="name" value="{{ obj.name }}" id="nameInput" oninput="autoSlug()" required>
+          <label>Название *</label>
+          <input type="text" name="name" value="{{ obj.name }}" required autofocus>
         </div>
       </div>
 
@@ -32,23 +32,6 @@
         </div>
       </div>
 
-      <div style="height:20px"></div>
-
-      <div class="form-grid">
-        <div class="field">
-          <label>Эмодзи</label>
-          <input type="text" name="emoji" value="{{ obj.emoji|default:'🏋️' }}" maxlength="10">
-        </div>
-        <div class="field">
-          <label>Порядок отображения</label>
-          <input type="number" name="order" value="{{ obj.order|default:0 }}" min="0">
-        </div>
-        <div class="field">
-          <label>Slug (URL) — заполняется автоматически</label>
-          <input type="text" name="slug" id="slugInput" value="{{ obj.slug }}">
-        </div>
-      </div>
-
       <div style="margin-top:24px;display:flex;gap:12px">
         <button type="submit" class="btn btn--primary">{% if action == 'new' %}Создать{% else %}Сохранить{% endif %}</button>
         <a href="{% url 'panel_categories' %}" class="btn btn--ghost">Отмена</a>
@@ -56,14 +39,4 @@
     </form>
   </div>
 </div>
-
-<script>
-const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',' ':'-'};
-function autoSlug() {
-  const s = document.getElementById('slugInput');
-  if (s.dataset.manual) return;
-  s.value = document.getElementById('nameInput').value.toLowerCase().split('').map(c=>map[c]!==undefined?map[c]:c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
-}
-document.getElementById('slugInput').addEventListener('input', function(){ this.dataset.manual='1'; });
-</script>
 {% endblock %}

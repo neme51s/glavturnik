@@ -69,7 +69,7 @@
           <div class="product-card" data-cat="{{ product.category.slug }}">
             <div class="product-card__image-wrap">
               {% if product.image %}
-              <img src="{% static product.image %}" alt="{{ product.name }}" loading="lazy">
+              <img src="{{ product.image }}" alt="{{ product.name }}" loading="lazy">
               {% else %}
               <div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:64px;">🏋️</div>
               {% endif %}
