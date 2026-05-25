@@ -57,11 +57,11 @@ def panel_categories(request):
 @staff_required
 def panel_category_new(request):
     error = None
-    data = {}
+    obj = {'emoji': '🏋️', 'order': 0}
     if request.method == 'POST':
-        data = request.POST
-        name = data.get('name', '').strip()
-        slug_val = data.get('slug', '').strip() or slugify(name)
+        obj = request.POST
+        name = obj.get('name', '').strip()
+        slug_val = obj.get('slug', '').strip() or slugify(name)
         if not name:
             error = 'Укажите название на русском'
         elif Category.objects.filter(slug=slug_val).exists():
@@ -69,13 +69,13 @@ def panel_category_new(request):
         else:
             Category.objects.create(
                 name=name,
-                name_kg=data.get('name_kg', '').strip(),
-                emoji=data.get('emoji', '🏋️').strip() or '🏋️',
-                order=int(data.get('order') or 0),
+                name_kg=obj.get('name_kg', '').strip(),
+                emoji=obj.get('emoji', '🏋️').strip() or '🏋️',
+                order=int(obj.get('order') or 0),
                 slug=slug_val,
             )
             return redirect('panel_categories')
-    return render(request, 'panel/category_form.html', {'active': 'categories', 'action': 'new', 'data': data, 'error': error})
+    return render(request, 'panel/category_form.html', {'active': 'categories', 'action': 'new', 'obj': obj, 'error': error})
 
 
 @staff_required
@@ -97,7 +97,10 @@ def panel_category_edit(request, pk):
             cat.slug = slug_val
             cat.save()
             return redirect('panel_categories')
-    return render(request, 'panel/category_form.html', {'active': 'categories', 'action': 'edit', 'cat': cat, 'error': error})
+        obj = request.POST
+    else:
+        obj = {'name': cat.name, 'name_kg': cat.name_kg, 'emoji': cat.emoji, 'order': cat.order, 'slug': cat.slug}
+    return render(request, 'panel/category_form.html', {'active': 'categories', 'action': 'edit', 'cat': cat, 'obj': obj, 'error': error})
 
 
 @staff_required
@@ -132,15 +135,15 @@ def panel_products(request):
 @staff_required
 def panel_product_new(request):
     error = None
-    data = {}
+    obj = {'order': 0, 'price': 0}
     cats = Category.objects.order_by('order')
     if request.method == 'POST':
-        data = request.POST
-        name = data.get('name', '').strip()
-        slug_val = data.get('slug', '').strip() or slugify(name)
+        obj = request.POST
+        name = obj.get('name', '').strip()
+        slug_val = obj.get('slug', '').strip() or slugify(name)
         if not name:
             error = 'Укажите название на русском'
-        elif not data.get('category'):
+        elif not obj.get('category'):
             error = 'Выберите категорию'
         elif Product.objects.filter(slug=slug_val).exists():
             error = f'Slug «{slug_val}» уже занят'
@@ -148,20 +151,20 @@ def panel_product_new(request):
             try:
                 Product.objects.create(
                     name=name,
-                    name_kg=data.get('name_kg', '').strip(),
+                    name_kg=obj.get('name_kg', '').strip(),
                     slug=slug_val,
-                    category_id=data['category'],
-                    price=int(data.get('price') or 0),
-                    image=data.get('image', '').strip(),
-                    description=data.get('description', '').strip(),
-                    description_kg=data.get('description_kg', '').strip(),
-                    is_hit='is_hit' in data,
-                    order=int(data.get('order') or 0),
+                    category_id=obj['category'],
+                    price=int(obj.get('price') or 0),
+                    image=obj.get('image', '').strip(),
+                    description=obj.get('description', '').strip(),
+                    description_kg=obj.get('description_kg', '').strip(),
+                    is_hit='is_hit' in obj,
+                    order=int(obj.get('order') or 0),
                 )
                 return redirect('panel_products')
             except Exception as e:
                 error = str(e)
-    return render(request, 'panel/product_form.html', {'active': 'products', 'action': 'new', 'cats': cats, 'data': data, 'error': error})
+    return render(request, 'panel/product_form.html', {'active': 'products', 'action': 'new', 'cats': cats, 'obj': obj, 'error': error})
 
 
 @staff_required
@@ -189,7 +192,17 @@ def panel_product_edit(request, pk):
             product.order = int(request.POST.get('order') or 0)
             product.save()
             return redirect('panel_products')
-    return render(request, 'panel/product_form.html', {'active': 'products', 'action': 'edit', 'product': product, 'cats': cats, 'error': error})
+        obj = request.POST
+    else:
+        obj = {
+            'name': product.name, 'name_kg': product.name_kg,
+            'slug': product.slug, 'price': product.price,
+            'image': product.image, 'description': product.description,
+            'description_kg': product.description_kg,
+            'is_hit': product.is_hit, 'order': product.order,
+            'category': str(product.category_id),
+        }
+    return render(request, 'panel/product_form.html', {'active': 'products', 'action': 'edit', 'product': product, 'cats': cats, 'obj': obj, 'error': error})
 
 
 @staff_required

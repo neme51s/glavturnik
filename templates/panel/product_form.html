@@ -21,24 +21,24 @@
       <div id="tab-ru" class="tab-pane active form-grid" style="gap:20px">
         <div class="field">
           <label>Название (рус.) *</label>
-          <input type="text" name="name" value="{{ product.name|default:data.name }}" id="nameInput" oninput="autoSlug()" required>
+          <input type="text" name="name" value="{{ obj.name }}" id="nameInput" oninput="autoSlug()" required>
         </div>
         <div></div>
-        <div class="field form-grid--full" style="grid-column:1/-1">
+        <div class="field" style="grid-column:1/-1">
           <label>Описание (рус.)</label>
-          <textarea name="description">{{ product.description|default:data.description }}</textarea>
+          <textarea name="description">{{ obj.description }}</textarea>
         </div>
       </div>
 
       <div id="tab-kg" class="tab-pane form-grid" style="gap:20px">
         <div class="field">
           <label>Название (кырг.)</label>
-          <input type="text" name="name_kg" value="{{ product.name_kg|default:data.name_kg }}">
+          <input type="text" name="name_kg" value="{{ obj.name_kg }}">
         </div>
         <div></div>
         <div class="field" style="grid-column:1/-1">
           <label>Описание (кырг.)</label>
-          <textarea name="description_kg">{{ product.description_kg|default:data.description_kg }}</textarea>
+          <textarea name="description_kg">{{ obj.description_kg }}</textarea>
         </div>
       </div>
 
@@ -51,29 +51,29 @@
           <select name="category" required>
             <option value="">— выберите —</option>
             {% for c in cats %}
-            <option value="{{ c.pk }}" {% if product.category_id == c.pk or data.category == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.emoji }} {{ c.name }}</option>
+            <option value="{{ c.pk }}" {% if obj.category == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.emoji }} {{ c.name }}</option>
             {% endfor %}
           </select>
         </div>
         <div class="field">
           <label>Цена (сом) *</label>
-          <input type="number" name="price" value="{{ product.price|default:data.price|default:0 }}" min="0" required>
+          <input type="number" name="price" value="{{ obj.price|default:0 }}" min="0" required>
         </div>
         <div class="field">
           <label>Slug (URL)</label>
-          <input type="text" name="slug" id="slugInput" value="{{ product.slug|default:data.slug }}">
+          <input type="text" name="slug" id="slugInput" value="{{ obj.slug }}">
         </div>
         <div class="field">
           <label>Порядок отображения</label>
-          <input type="number" name="order" value="{{ product.order|default:data.order|default:0 }}" min="0">
+          <input type="number" name="order" value="{{ obj.order|default:0 }}" min="0">
         </div>
         <div class="field" style="grid-column:1/-1">
           <label>Путь к изображению (например: images/products/photo.jpg)</label>
-          <input type="text" name="image" value="{{ product.image|default:data.image }}">
+          <input type="text" name="image" value="{{ obj.image }}">
         </div>
         <div class="field" style="grid-column:1/-1">
           <label class="hit-check">
-            <input type="checkbox" name="is_hit" {% if product.is_hit or data.is_hit %}checked{% endif %}>
+            <input type="checkbox" name="is_hit" {% if obj.is_hit %}checked{% endif %}>
             🔥 Хит продаж — товар будет отмечен плашкой на сайте
           </label>
         </div>
@@ -88,13 +88,12 @@
 </div>
 
 <script>
+const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',' ':'-'};
 function autoSlug() {
-  const slugInput = document.getElementById('slugInput');
-  if (slugInput.dataset.manual) return;
-  const name = document.getElementById('nameInput').value;
-  const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'yo','ж':'zh','з':'z','и':'i','й':'j','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',' ':'-'};
-  slugInput.value = name.toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const s = document.getElementById('slugInput');
+  if (s.dataset.manual) return;
+  s.value = document.getElementById('nameInput').value.toLowerCase().split('').map(c=>map[c]!==undefined?map[c]:c).join('').replace(/[^a-z0-9-]/g,'').replace(/-+/g,'-').replace(/^-|-$/g,'');
 }
-document.getElementById('slugInput').addEventListener('input', function(){ this.dataset.manual = '1'; });
+document.getElementById('slugInput').addEventListener('input', function(){ this.dataset.manual='1'; });
 </script>
 {% endblock %}
