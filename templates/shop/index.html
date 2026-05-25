@@ -45,138 +45,10 @@
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#about"   class="mobile-menu__link">🏭 <span data-i18n="nav_about">О нас</span></a>
   <a href="#catalog" class="mobile-menu__link">📦 <span data-i18n="nav_catalog">Каталог</span></a>
   <a href="#contact" class="mobile-menu__link">📍 <span data-i18n="nav_contact">Контакты</span></a>
   <a href="tel:+996502409280" class="mobile-menu__phone">📞 0502 409 280</a>
 </div>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero__inner">
-      <div class="hero__content">
-        <span class="hero__label" data-i18n="hero_label">Бишкек, Кыргызстан</span>
-        <h1 class="hero__title fade-up">
-          <span data-i18n="hero_line1">Спортивное</span><br>
-          <span class="accent" data-i18n="hero_line2">оборудование</span><br>
-          <span data-i18n="hero_line3">для дома и зала</span>
-        </h1>
-        <p class="hero__desc fade-up fade-up-1" data-i18n="hero_desc">
-          Турники, брусья, шведские стенки, тренажёры и боксёрский инвентарь.
-          Собственное производство и лучшие российские бренды.
-        </p>
-        <div class="hero__actions fade-up fade-up-2">
-          <a href="#catalog" class="btn btn--primary" data-i18n="hero_btn_catalog">🛒 Смотреть каталог</a>
-          <a href="#contact" class="btn btn--outline" data-i18n="hero_btn_contact">Связаться с нами</a>
-        </div>
-      </div>
-      <div class="hero__visual fade-up fade-up-3">
-        <div class="hero__logo-orb">
-          <img src="{% static 'images/logo.png' %}" alt="ГлавТурник KG">
-        </div>
-        <div class="hero__stats-grid">
-          <div class="hero__stat-card">
-            <div class="hero__stat-icon">🏭</div>
-            <div class="hero__stat-num"><span class="counter" data-target="10">0</span><span>+</span></div>
-            <div class="hero__stat-label" data-i18n="stat1_label">Видов снарядов собственного производства</div>
-          </div>
-          <div class="hero__stat-card">
-            <div class="hero__stat-icon">🛡️</div>
-            <div class="hero__stat-num">1<span data-i18n="stat2_unit">год</span></div>
-            <div class="hero__stat-label" data-i18n="stat2_label">Гарантия на продукцию</div>
-          </div>
-          <div class="hero__stat-card">
-            <div class="hero__stat-icon">⚡</div>
-            <div class="hero__stat-num">24<span>/7</span></div>
-            <div class="hero__stat-label" data-i18n="stat3_label">Принимаем заказы онлайн</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STRIP -->
-<div class="strip">
-  <div class="container">
-    <ul class="strip__list">
-      <li class="strip__item"><span>🏭</span> <span data-i18n="strip1">Собственное производство</span></li>
-      <li class="strip__item"><span>🔩</span> <span data-i18n="strip2">Металлообработка и сварка</span></li>
-      <li class="strip__item"><span>🎨</span> <span data-i18n="strip3">Порошковая покраска</span></li>
-      <li class="strip__item"><span>🛡️</span> <span data-i18n="strip4">Контроль качества</span></li>
-      <li class="strip__item"><span>📦</span> <span data-i18n="strip5">Доставка по Бишкеку</span></li>
-    </ul>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="container">
-    <div class="about__inner">
-      <div class="about__text reveal-left">
-        <span class="badge" data-i18n="about_badge">О компании</span>
-        <h2 class="section-title">
-          <span data-i18n="about_title1">Делаем спорт</span><br>
-          <span data-i18n="about_title2">доступным</span>
-          <span data-i18n="about_title3"> каждому</span>
-        </h2>
-        <p data-i18n="about_p1">
-          ГлавТурник KG — интернет-магазин спортивного оборудования в Бишкеке.
-          Мы помогаем создать настоящий домашний спортивный уголок без лишних затрат.
-        </p>
-        <p data-i18n="about_p2">
-          Мы самостоятельно производим более 10 видов спортивных снарядов.
-          На нашем производстве выполняются работы по металлообработке, сварке
-          и порошковой покраске изделий. Также сотрудничаем с ведущими российскими
-          производителями спортивного инвентаря.
-        </p>
-        <div class="about__features">
-          <div class="about__feat reveal reveal-d1">
-            <div class="about__feat-icon">🔧</div>
-            <div class="about__feat-title" data-i18n="feat1_title">Металлообработка</div>
-            <div class="about__feat-desc" data-i18n="feat1_desc">Собственный цех резки и гибки металла</div>
-          </div>
-          <div class="about__feat reveal reveal-d2">
-            <div class="about__feat-icon">🔥</div>
-            <div class="about__feat-title" data-i18n="feat2_title">Сварка</div>
-            <div class="about__feat-desc" data-i18n="feat2_desc">Полуавтоматическая аргонодуговая сварка</div>
-          </div>
-          <div class="about__feat reveal reveal-d3">
-            <div class="about__feat-icon">🎨</div>
-            <div class="about__feat-title" data-i18n="feat3_title">Покраска</div>
-            <div class="about__feat-desc" data-i18n="feat3_desc">Порошковое напыление — прочно и красиво</div>
-          </div>
-          <div class="about__feat reveal reveal-d4">
-            <div class="about__feat-icon">✅</div>
-            <div class="about__feat-title" data-i18n="feat4_title">Контроль качества</div>
-            <div class="about__feat-desc" data-i18n="feat4_desc">Каждый снаряд проходит проверку нагрузкой</div>
-          </div>
-        </div>
-      </div>
-      <div class="about__visual reveal-right">
-        <div class="about__logo-wrap">
-          <img src="{% static 'images/logo.png' %}" alt="ГлавТурник KG">
-        </div>
-        <div class="about__visual-divider"></div>
-        <div class="about__contacts">
-          <a href="tel:+996502409280" class="about__contact-item">
-            <span>📞</span>
-            <span>0502 409 280 / 0705 975 177</span>
-          </a>
-          <a href="https://instagram.com/shvedskaya_stenka" target="_blank" class="about__contact-item">
-            <span>📸</span>
-            <span>@shvedskaya_stenka</span>
-          </a>
-          <div class="about__contact-item">
-            <span>🌐</span>
-            <span>glavturnik.kg</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- CATALOG (sidebar + products) -->
 <section class="catalog" id="catalog">
@@ -234,49 +106,7 @@
           <p data-i18n="no_products">Товары не найдены</p>
           {% endfor %}
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ADVANTAGES -->
-<section class="advantages">
-  <div class="container">
-    <div class="advantages__head reveal">
-      <span class="badge" data-i18n="adv_badge">Почему мы</span>
-      <h2 class="section-title"><span data-i18n="adv_title">Наши <span>преимущества</span></span></h2>
-      <p class="section-subtitle" data-i18n="adv_sub">Мы делаем больше, чем просто продаём снаряды</p>
-    </div>
-    <div class="advantages__grid">
-      <div class="adv-card reveal reveal-d1">
-        <div class="adv-card__icon">🏭</div>
-        <div class="adv-card__title" data-i18n="adv1_title">Собственное производство</div>
-        <div class="adv-card__text" data-i18n="adv1_text">Производим более 10 видов спортивных снарядов на собственном оборудовании в Бишкеке.</div>
-      </div>
-      <div class="adv-card reveal reveal-d2">
-        <div class="adv-card__icon">🛡️</div>
-        <div class="adv-card__title" data-i18n="adv2_title">Гарантия 1 год</div>
-        <div class="adv-card__text" data-i18n="adv2_text">На всю продукцию распространяется гарантия 1 год с даты продажи. Берём качество на себя.</div>
-      </div>
-      <div class="adv-card reveal reveal-d3">
-        <div class="adv-card__icon">✅</div>
-        <div class="adv-card__title" data-i18n="adv3_title">Строгий контроль качества</div>
-        <div class="adv-card__text" data-i18n="adv3_text">Каждое изделие проходит контроль качества перед отправкой покупателю.</div>
-      </div>
-      <div class="adv-card reveal reveal-d4">
-        <div class="adv-card__icon">💰</div>
-        <div class="adv-card__title" data-i18n="adv4_title">Честные цены</div>
-        <div class="adv-card__text" data-i18n="adv4_text">Цены без наценок посредников. Покупаете напрямую у производителя и дистрибьютора.</div>
-      </div>
-      <div class="adv-card reveal reveal-d5">
-        <div class="adv-card__icon">🚀</div>
-        <div class="adv-card__title" data-i18n="adv5_title">Быстрый заказ</div>
-        <div class="adv-card__text" data-i18n="adv5_text">Позвоните или напишите нам — ответим в течение нескольких минут и оформим заказ.</div>
-      </div>
-      <div class="adv-card reveal reveal-d5">
-        <div class="adv-card__icon">🌍</div>
-        <div class="adv-card__title" data-i18n="adv6_title">Партнёры в России</div>
-        <div class="adv-card__text" data-i18n="adv6_text">Сотрудничаем с ведущими российскими производителями спортивного инвентаря и тренажёров.</div>
+        <div class="pagination" id="pagination"></div>
       </div>
     </div>
   </div>
@@ -307,21 +137,6 @@
               <div class="contact__phone-label" data-i18n="phone2_label">Дополнительный</div>
             </div>
           </a>
-        </div>
-        <div class="contact__schedule">
-          <div class="contact__schedule-title" data-i18n="schedule_title">График работы</div>
-          <div class="contact__schedule-row">
-            <span class="contact__schedule-days" data-i18n="day1">Пн — Пт</span>
-            <span class="contact__schedule-hours">09:00 — 18:00</span>
-          </div>
-          <div class="contact__schedule-row">
-            <span class="contact__schedule-days" data-i18n="day2">Суббота</span>
-            <span class="contact__schedule-hours">10:00 — 16:00</span>
-          </div>
-          <div class="contact__schedule-row">
-            <span class="contact__schedule-days" data-i18n="day3">Воскресенье</span>
-            <span class="contact__schedule-hours" data-i18n="day3_hours">Выходной</span>
-          </div>
         </div>
       </div>
 
@@ -705,36 +520,75 @@ const counterObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.5 });
 document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
-/* ---- Sidebar category filter ---- */
+/* ---- Sidebar category filter + pagination ---- */
 const sidebarBtns  = document.querySelectorAll('.sidebar-cat');
-const productCards = document.querySelectorAll('.product-card[data-cat]');
+const productCards = Array.from(document.querySelectorAll('.product-card[data-cat]'));
 const grid         = document.getElementById('productsGrid');
+const pagination   = document.getElementById('pagination');
+const PER_PAGE     = 15;
+let currentSlug    = '';
+let currentPage    = 1;
 
-function filterBySlug(slug) {
-  const savedY = window.scrollY;
-  grid.style.transition = 'opacity .18s';
-  grid.style.opacity = '0';
-  setTimeout(() => {
-    productCards.forEach(card => {
-      card.style.display = (!slug || card.dataset.cat === slug) ? '' : 'none';
-    });
-    grid.style.opacity = '1';
-    window.scrollTo({ top: savedY, behavior: 'instant' });
-  }, 180);
+function getFiltered() {
+  return productCards.filter(c => !currentSlug || c.dataset.cat === currentSlug);
+}
+
+function renderPage() {
+  const filtered = getFiltered();
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  const start = (currentPage - 1) * PER_PAGE;
+  const end   = start + PER_PAGE;
+
+  productCards.forEach(c => c.style.display = 'none');
+  filtered.slice(start, end).forEach(c => c.style.display = '');
+
+  pagination.innerHTML = '';
+  if (totalPages <= 1) return;
+
+  if (currentPage > 1) {
+    const prev = document.createElement('button');
+    prev.className = 'page-btn';
+    prev.textContent = '←';
+    prev.addEventListener('click', () => { currentPage--; renderPage(); grid.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    pagination.appendChild(prev);
+  }
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (i === currentPage ? ' page-btn--active' : '');
+    btn.textContent = i;
+    btn.addEventListener('click', () => { currentPage = i; renderPage(); grid.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    pagination.appendChild(btn);
+  }
+
+  if (currentPage < totalPages) {
+    const next = document.createElement('button');
+    next.className = 'page-btn';
+    next.textContent = '→';
+    next.addEventListener('click', () => { currentPage++; renderPage(); grid.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    pagination.appendChild(next);
+  }
 }
 
 sidebarBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     sidebarBtns.forEach(b => b.classList.remove('sidebar-cat--active'));
     btn.classList.add('sidebar-cat--active');
-    filterBySlug(btn.dataset.slug);
-    if (window.innerWidth <= 900) {
-      setTimeout(() => {
+    currentSlug = btn.dataset.slug;
+    currentPage = 1;
+    grid.style.transition = 'opacity .18s';
+    grid.style.opacity = '0';
+    setTimeout(() => {
+      renderPage();
+      grid.style.opacity = '1';
+      if (window.innerWidth <= 900) {
         grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 200);
-    }
+      }
+    }, 180);
   });
 });
+
+renderPage();
 </script>
 
 </body>

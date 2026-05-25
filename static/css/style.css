@@ -669,3 +669,9 @@ ul { list-style: none; }
 .fade-up-1 { animation-delay: .12s; }
 .fade-up-2 { animation-delay: .24s; }
 .fade-up-3 { animation-delay: .36s; }
+
+/* Pagination */
+.pagination { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
+.page-btn { padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--white); color: var(--text-muted); font-size: 14px; font-weight: 500; cursor: pointer; transition: var(--transition); }
+.page-btn:hover { background: var(--light); color: var(--text); }
+.page-btn--active { background: var(--accent); color: #0D1117; border-color: var(--accent); font-weight: 700; }
