@@ -10,16 +10,13 @@
   <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>Эмодзи</th><th>Название (рус.)</th><th>Название (кырг.)</th><th>Slug</th><th>Порядок</th><th></th></tr>
+        <tr><th>Название (рус.)</th><th>Название (кырг.)</th><th></th></tr>
       </thead>
       <tbody>
         {% for cat in cats %}
         <tr>
-          <td style="font-size:22px">{{ cat.emoji }}</td>
           <td style="font-weight:600">{{ cat.name }}</td>
           <td style="color:#8b949e">{{ cat.name_kg|default:"—" }}</td>
-          <td style="color:#8b949e;font-family:monospace">{{ cat.slug }}</td>
-          <td>{{ cat.order }}</td>
           <td style="text-align:right">
             <a href="{% url 'panel_category_edit' cat.pk %}" class="btn btn--ghost btn--sm">Изменить</a>
             <form method="post" action="{% url 'panel_category_delete' cat.pk %}" style="display:inline" onsubmit="return confirm('Удалить категорию «{{ cat.name }}»? Все товары тоже удалятся.')">
